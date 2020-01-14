@@ -1,7 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
         <link rel="stylesheet" href="style.css?version=2">
+
+        <title>Who Goes First?</title>
     </head>
     <body>
         <h1>Who Goes First?</h1>
@@ -10,7 +30,7 @@
                     <td colspan="6">
                             <p>This is a tool for taking initiative order in Dungeons & Dragons combat.</p>
                             <p>First, the Dungeon Master should create a session using the "Create Session" button. This generates a new session code, which will be displayed below.</p>
-                            <p>The players can then enter that session code and the name of their character into the fields under the "I am a Player Character" section. Press the "Join Session" button to join the session as this character.</p>
+                            <p>The players can then enter that session code and the name of their character into the fields under the "Join a Session" section. Press the "Join Session" button to join the session as this character.</p>
                             <p>Players in the session can calculate and enter their initiative score in the form below, then press the "Submit Initiative" button to share their initiative with the rest of the party. The players'
                             initiative scores are displayed in the table at the bottom of this page, ordered from highest to lowest score.</p>
                             <p>The "Nat 20," "Nat 1," and "Modifier" fields are used to adjust the priority of the initiative scores when they are ordered in the table.</p>
@@ -19,18 +39,21 @@
                                 <li>"Nat 1" - Check this if the die rolled a natural 1. This subtracts 20 from the initiative score when sorting the initiative table.</li>
                                 <li>"Modifier" - Enter your character's dexterity/initiative modifier here. If two players submit the same initiative score, the player with the greater modifier is given priority when sorting the table.</li>
                             </ul>
+                            <p>If you are a Dungeon Master and did not create the session or need to re-join the session, use the "Join a Session" section with the session code and a random character name. This name will not appear in the initiatives
+                                table unless you press the "Submit Initiative" button.
+                            </p>
                     </td>
                 </tr>
             <tr style="vertical-align: top;">
                 <td>
                     <form id="createForm">
-                        <h2 class="shiny">I am a Dungeon Master</h2>
+                        <h2 class="shiny">Create a Session</h2>
                         <input type="submit" id="createButton" value="Create Session" class="shiny">
                     </form>
                 </td>
                 <td>
                     <form id="joinForm">
-                        <h2 class="shiny">I am a Player Character</h2>
+                        <h2 class="shiny">Join a Session</h2>
                         <table>
                             <tr>
                                 <td>
@@ -62,7 +85,7 @@
                     <i>Share this with your party</i>
                 </td>
                 <td style="text-align: center;">    
-                    <h1 id="sessionCodeLabel"> _ _ _ _ _ _</h1>
+                    <a id="sessionCodeLink"><h1 id="sessionCodeLabel"> _ _ _ _ _ _</h1></a>
                 </td>
             </tr>
             <tr>
@@ -206,6 +229,12 @@
             document.getElementById('sessionCodeInput').value = sessionCode;
             document.getElementById('characterNameInput').value = characterName;
             document.getElementById('modifierInput').value = Number(getCookie('modifier')) || 0;
+
+            if (urlParams.has('code') && urlParams.get('code') == sessionCode  && (characterName.length || 0) > 1) {
+                showSessionCode(sessionCode);
+                submitJoin();
+                console.log('automatically joining session ' + sessionCode);
+            }
 
             validateInputs();
             validateConnection();

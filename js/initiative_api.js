@@ -4,6 +4,7 @@ const INITIATIVE_API_ENDPOINT = "wss://bgov1wxo28.execute-api.us-east-1.amazonaw
 var refreshInitiatives;
 let showSessionCode = function(code) {
     document.getElementById("sessionCodeLabel").innerText = code;
+    document.getElementById("sessionCodeLink").href = window.location.href.split('?')[0] + '?code=' + code;
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -93,17 +94,23 @@ function initSocket() {
 
 var socket = initSocket();
 
-function getSocket() {
+function waitForSocket(callback) {
+    if (socket.ready)
+        callback(socket);
+}
+
+function getSocket(callback) {
     if (socket.readyState == WebSocket.OPEN)
-        return socket;
-    else {
-        joinSession(socket.sessionCode || sessionCode, socket.characterName || characterName);
-        return socket;
+        callback(socket);
+    else if (socket.readyState == WebSocket.CONNECTING) {
+        setTimeout((callback) => getSocket, 400);
+    } else {
+        socket = initSocket();
     }
 }
 
 function sendToApi(json) {
-    getSocket().send(JSON.stringify(json));
+    getSocket((s) => {s.send(JSON.stringify(json));});
 }
 
 function joinSession(session, name) {

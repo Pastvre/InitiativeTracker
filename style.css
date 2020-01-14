@@ -85,6 +85,6 @@ input.shiny:disabled {
     border: 1pt solid white;
 }
 
-#initiativeButton {
+#initiativeButton, #joinButton {
     font-size: 1.5em;
 }

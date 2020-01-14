@@ -33,6 +33,9 @@ function initSocket() {
                 console.log('onJoin['+i+']:'+JSON.stringify(p))
                 // p.name = k;
                 updateInitiative(p);
+                if (p.name == characterName) {
+                    document.getElementById('modifierInput').value = p.modifier || 0;
+                }
             }
         } 
         else if (action === "onCreate") {

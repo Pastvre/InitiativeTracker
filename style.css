@@ -1,11 +1,29 @@
 body {
     background: black;
     color: white;
+    padding-bottom: 1em;
 }
 
-body, input {
+body, input, label {
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
     line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
+}
+
+label {
+    display: inline-block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+input[type=checkbox] {
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    margin:0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
 }
 
 table {
@@ -13,13 +31,13 @@ table {
     width: 95%;
 } 
 
-table tr th,td {
+th, td {
     width: 25%;
     text-align: center;
 }
 
 #layoutTable {
-    position: fixed;
+    position: absolute;
     max-width: 75%;
     min-width: 50%;
     left: 25%;
@@ -41,6 +59,11 @@ table tr th,td {
 
 #layoutTable td table {
     table-layout: auto;
+}
+
+#layoutTable td table td {
+    table-layout: auto;
+    text-align: center;
 }
 
 .topleft {

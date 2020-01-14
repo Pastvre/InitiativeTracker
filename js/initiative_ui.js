@@ -13,13 +13,16 @@ refreshInitiatives = function(data) {
             row = table.rows[index];
         } else {
             row = table.insertRow(index);
-            for (var j=0; j<4; j++)
+            for (var j=0; j<6; j++)
                 row.insertCell(0);
         }
-        row.cells[0].innerHTML = v.name;
-        row.cells[1].innerHTML = v.initiative || '...';
-        row.cells[2].innerHTML = v.critical || false;
-        row.cells[3].innerHTML = v.surprised || false;
+        row.cells[0].innerHTML = index;
+        row.cells[0].colSpan = "1";
+        row.cells[1].innerHTML = encodeURIComponent(v.name).replace('%20', ' ').replace('%20', ' ');
+        row.cells[2].innerHTML = Number(v.initiative) || '...';
+        row.cells[3].innerHTML = (v.critical && true) || false;
+        row.cells[4].innerHTML = (v.surprised && true) || false;
+        row.cells[5].innerHTML = Number(v.modifier) || 0;
     }
     while (table.rows.length - 1 > data.length) {
         table.deleteRow(table.rows.length - 1); // delete extra rows
@@ -31,23 +34,30 @@ function sortInitiatives(map) {
     for (var k in map) {
         table[table.length] = {
             name: k,
-            initiative: map[k].initiative,
-            critical: map[k].critical,
-            surprised: map[k].surprised
+            initiative: Number(map[k].initiative) || 0,
+            critical: map[k].critical == 'true' || map[k].critical == true || false,
+            surprised: map[k].surprised == 'true' || map[k].surprised == true || false,
+            modifier: Number(map[k].modifier) || 0
         }
     }
     table.sort(
         function(a, b) {
             let ia = Number(a.initiative || -20);
             let ib = Number(b.initiative || -20);
-            if (a.critical === 'true' || false)
-                ia += 20;
-            if (b.critical === 'true' || false)
-                ib += 20;
-            if (ia.surprised === 'true' || false)
+
+            if (a.surprised == 'true' || a.surprised == true || false)
                 ia -= 20;
-            if (ib.surprised === 'true' || false)
+            else if (a.critical == 'true' || a.critical == true || false)
+                ia += 20;
+
+            if (b.surprised == 'true' || b.surprised == true || false)
                 ib -= 20;
+            else if (b.critical == 'true' || b.critical == true || false)
+                ib += 20;
+
+            if (ia == ib)
+                return (b.modifier || 0) - (a.modifier || 0); // higher modifier goes first in a tie
+
             return ib - ia;
         }
     );

@@ -6,12 +6,39 @@ let showSessionCode = function(code) {
     document.getElementById("sessionCodeLabel").innerText = code;
 }
 
-var characterName;
-var sessionCode;
+function setCookie(cname, cvalue, exdays) {
+    // https://www.w3schools.com/js/js_cookies.asp
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    // https://www.w3schools.com/js/js_cookies.asp
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+var characterName = getCookie('characterName');
+var sessionCode = getCookie('sessionCode');
 
 function initSocket() {
     let socket = new WebSocket(INITIATIVE_API_ENDPOINT);
-    socket.onopen = function(event) {};
+    socket.onopen = function(event) {
+        validateConnection();
+    };
     socket.onmessage = function(event) {
         let data = JSON.parse(event.data);
         let action = data.action;
@@ -37,6 +64,9 @@ function initSocket() {
                     document.getElementById('modifierInput').value = p.modifier || 0;
                 }
             }
+            setCookie('sessionCode', sessionCode, 1);
+            setCookie('characterName', characterName, 8);
+            validateConnection();
         } 
         else if (action === "onCreate") {
             sessionCode = params.session;
@@ -52,9 +82,11 @@ function initSocket() {
         } else {
             alert('[close] Connection died');
         }
+        validateConnection();
     };
     socket.onerror = function(error) {
         alert(`[error] ${error.message}`);
+        validateConnection();
     };
     return socket;
 }
@@ -99,6 +131,7 @@ function sendInitiative(valuesMap) {
             values: valuesMap
         }
     });
+    setCookie('modifier', document.getElementById('modifierInput').value, 31);
 }
 
 function createSession() {

@@ -4,27 +4,25 @@
         <link rel="stylesheet" href="style.css?version=2">
     </head>
     <body>
-        <div class="topleft">
-            <h1>Who Goes First?</h1>
-        </div>
+        <h1>Who Goes First?</h1>
         <table id="layoutTable">
             <tr style="vertical-align: top;">
                 <td>
                     <form id="createForm">
-                        <h2>I am a Dungeon Master</h2>
-                        <input type="submit" id="createButton" value="Create Session">
+                        <h2 class="shiny">I am a Dungeon Master</h2>
+                        <input type="submit" id="createButton" value="Create Session" class="shiny">
                     </form>
                 </td>
                 <td>
                     <form id="joinForm">
-                        <h2>I am a Player Character</h2>
+                        <h2 class="shiny">I am a Player Character</h2>
                         <table>
                             <tr>
                                 <td>
                                     Session Code: 
                                 </td>
                                 <td>
-                                    <input type="text" name="sessionCode" id="sessionCodeInput" value="">
+                                    <input type="text" name="sessionCode" id="sessionCodeInput" value="" onChange="validateInputs();">
                                 </td>
                             </tr>
                             <tr>
@@ -32,12 +30,12 @@
                                     Character Name:
                                 </td>
                                 <td>
-                                    <input type="text" name="characterName" id="characterNameInput" value="">
+                                    <input type="text" name="characterName" id="characterNameInput" value="" onChange="validateInputs();">
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <input type="submit" id="joinButton" value="Join Session">
+                                    <input type="submit" id="joinButton" value="Join Session" class="shiny">
                                 </td>
                             </tr>
                         </table>
@@ -50,6 +48,11 @@
                 </td>
                 <td style="text-align: center;">    
                     <h1 id="sessionCodeLabel"> _ _ _ _ _ _</h1>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <hr>
                 </td>
             </tr>
             <tr>
@@ -94,7 +97,7 @@
                             <tr>
                                 <td colspan="5">
                                     <hr>
-                                    <input type="submit" id="initiativeButton" value="Submit Initiative">
+                                    <input type="submit" id="initiativeButton" value="Submit Initiative" class="shiny">
                                 </td>
                             </tr>
                         </table>
@@ -129,6 +132,16 @@
         <script src="js/initiative_api.js?version=2"></script>
         <script src="js/initiative_ui.js?version=2"></script>
         <script>
+            function validateInputs() {
+                let nameIn = document.getElementById('characterNameInput').value;
+                let codeIn = document.getElementById('sessionCodeInput').value;
+                document.getElementById('joinButton').disabled = nameIn.length == 0 || codeIn.length !== 6;
+            }
+
+            function validateConnection() {
+                document.getElementById('initiativeButton').disabled == socket.readyState !== WebSocket.OPEN;
+            }
+
             function sessionParams() {
                 let session = document.getElementById("sessionCodeInput").value;
                 let name = document.getElementById("characterNameInput").value;
@@ -167,6 +180,20 @@
                 submitInitiative();
                 return false;
             }
+
+            // get parameters from query string
+            let urlParams = new URLSearchParams(window.location.search);
+            console.log(JSON.stringify(urlParams));
+            if (urlParams.has('code'))
+                sessionCode = urlParams.get('code');
+            if (urlParams.has('name'))
+                characterName = urlParams.get('name');
+            document.getElementById('sessionCodeInput').value = sessionCode;
+            document.getElementById('characterNameInput').value = characterName;
+            document.getElementById('modifierInput').value = Number(getCookie('modifier')) || 0;
+
+            validateInputs();
+            validateConnection();
         </script>
     </body>
 </html>

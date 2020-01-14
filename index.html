@@ -4,18 +4,20 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>Initiative Tracker</h1>
-        This is a placeholder for the initiative tracker app.
-        <br>
+        <div class="topleft">
+            <h1>Initiative Tracker</h1>
+        </div>
         <table id="layoutTable">
-            <tr>
+            <tr style="vertical-align: top;">
                 <td>
                     <form id="createForm">
+                        <h2>Dungeon Master</h2>
                         <input type="submit" id="createButton" value="Create Session">
                     </form>
                 </td>
                 <td>
                     <form id="joinForm">
+                        <h2>Player Characters</h2>
                         <table>
                             <tr>
                                 <td>
@@ -42,26 +44,31 @@
                     </form>
                 </td>
             </tr>
-            <tr>
-                <td colspan="2">
-                    <h1 id="sessionCodeLabel"></h1>
+            <tr style="vertical-align: middle;">
+                <td style="background: none; text-align: right;"><h3>Session Code: </h3>
+                    <i>Share this with your party</i>
+                </td>
+                <td>    
+                    <h1 id="sessionCodeLabel"> _ _ _ _ _ _</h1>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
                     <form id="initiativeForm">
                         <table>
-                            <tr>
+                            <tr style="vertical-align: top;">
                                 <td>
-                                    Initiative: 
+                                    <h2>Initiative: </h2>
                                 </td>
                                 <td>
-                                    <input type="number" name="initiative" id="initiativeInput" value="0">
+                                    <input type="number" name="initiative" id="initiativeInput" value="0" style="font-size: 2em;">
+                                    <hr>
+                                    <input type="submit" id="initiativeButton" value="Submit Initiative">
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <input type="submit" id="initiativeButton" value="Update Initiative">
+                                    
                                 </td>
                             </tr>
                         </table>

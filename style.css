@@ -2,3 +2,14 @@ body {
     background: black;
     color: white;
 }
+
+#layoutTable {
+    position: fixed;
+    width: 50%;
+    left: 25%;
+    border-spacing: 1em;
+}
+
+#layoutTable tr td {
+    background: #090909;
+}

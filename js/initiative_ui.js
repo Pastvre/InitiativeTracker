@@ -51,7 +51,7 @@ function sortInitiatives(map) {
             return ib - ia;
         }
     );
-    console.log(JSON.stringify(table));
+    console.log('sort:'+JSON.stringify(table));
     return table;
 }
 
@@ -60,11 +60,15 @@ updateInitiative = function(data) {
         let name = data.name;
         if (!(name in initiativeMap))
             initiativeMap[name] = {}; // create a blank entry in initiativeMap
-        for (var k in data.values) {
-            initiativeMap[name][k] = data.values[k]; // update property in initiativeMap entry
+        for (var k in data) {
+            if (k !== 'name') {
+                initiativeMap[name][k] = data[k]; // update property in initiativeMap entry
+                console.log(name+'['+k+']'+'='+initiativeMap[name][k]);
+            }
         }
         refreshInitiatives(sortInitiatives(initiativeMap));
     } else {
         // received message for wrong session
+        console.log('received an event for a different session code.');
     }
 }

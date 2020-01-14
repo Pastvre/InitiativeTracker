@@ -7,68 +7,80 @@
         <h1>Initiative Tracker</h1>
         This is a placeholder for the initiative tracker app.
         <br>
-        <form id="createForm">
-            <input type="submit" id="createButton" value="Create Session">
-        </form>
-        <br>
-        <form id="joinForm">
-            <table>
-                <tr>
-                    <td>
-                        Session Code: 
-                    </td>
-                    <td>
-                        <input type="text" name="sessionCode" id="sessionCodeInput" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Character Name:
-                    </td>
-                    <td>
-                        <input type="text" name="characterName" id="characterNameInput" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" id="joinButton" value="Join Session">
-                    </td>
-                </tr>
-            </table>
-        </form>
-        <br>
-        <div>
-            <h1 id="sessionCodeLabel"></h1>
-        </div>
-        <br>
-        <form id="initiativeForm">
-            <table>
-                <tr>
-                    <td>
-                        Initiative: 
-                    </td>
-                    <td>
-                        <input type="number" name="initiative" id="initiativeInput" value="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" id="initiativeButton" value="Update Initiative">
-                    </td>
-                </tr>
-            </table>
-        </form>
-        <br>
-        <div>
-            <table id="initiative-table">
-                <tr>
-                    <th>Name</th>
-                    <th>Initiative</th>
-                    <th>Critical</th>
-                    <th>Surprised</th>
-                </tr>
-            </table>
-        </div>
+        <table id="layoutTable">
+            <tr>
+                <td>
+                    <form id="createForm">
+                        <input type="submit" id="createButton" value="Create Session">
+                    </form>
+                </td>
+                <td>
+                    <form id="joinForm">
+                        <table>
+                            <tr>
+                                <td>
+                                    Session Code: 
+                                </td>
+                                <td>
+                                    <input type="text" name="sessionCode" id="sessionCodeInput" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Character Name:
+                                </td>
+                                <td>
+                                    <input type="text" name="characterName" id="characterNameInput" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" id="joinButton" value="Join Session">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h1 id="sessionCodeLabel"></h1>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <form id="initiativeForm">
+                        <table>
+                            <tr>
+                                <td>
+                                    Initiative: 
+                                </td>
+                                <td>
+                                    <input type="number" name="initiative" id="initiativeInput" value="0">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" id="initiativeButton" value="Update Initiative">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table id="initiative-table">
+                        <tr>
+                            <th>Name</th>
+                            <th>Initiative</th>
+                            <th>Critical</th>
+                            <th>Surprised</th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
 
         <script src="js/initiative_api.js"></script>
         <script src="js/initiative_ui.js"></script>

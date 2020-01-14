@@ -64,8 +64,8 @@ function initSocket() {
                     document.getElementById('modifierInput').value = p.modifier || 0;
                 }
             }
-            setCookie('sessionCode', sessionCode, 1);
-            setCookie('characterName', characterName, 8);
+            setCookie('sessionCode', sessionCode, 1); // lasts 1 day
+            setCookie('characterName', characterName, 8); // lasts 8 days
             validateConnection();
         } 
         else if (action === "onCreate") {
@@ -131,7 +131,7 @@ function sendInitiative(valuesMap) {
             values: valuesMap
         }
     });
-    setCookie('modifier', document.getElementById('modifierInput').value, 31);
+    setCookie('modifier', document.getElementById('modifierInput').value, 8); // lasts 8 days
 }
 
 function createSession() {

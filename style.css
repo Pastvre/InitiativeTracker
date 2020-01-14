@@ -84,3 +84,7 @@ input.shiny:disabled {
     color: white;
     border: 1pt solid white;
 }
+
+#initiativeButton {
+    font-size: 1.5em;
+}

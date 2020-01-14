@@ -6,6 +6,21 @@
     <body>
         <h1>Who Goes First?</h1>
         <table id="layoutTable">
+                <tr style="vertical-align: top;">
+                    <td colspan="6">
+                            <p>This is a tool for taking initiative order in Dungeons & Dragons combat.</p>
+                            <p>First, the Dungeon Master should create a session using the "Create Session" button. This generates a new session code, which will be displayed below.</p>
+                            <p>The players can then enter that session code and the name of their character into the fields under the "I am a Player Character" section. Press the "Join Session" button to join the session as this character.</p>
+                            <p>Players in the session can calculate and enter their initiative score in the form below, then press the "Submit Initiative" button to share their initiative with the rest of the party. The players'
+                            initiative scores are displayed in the table at the bottom of this page, ordered from highest to lowest score.</p>
+                            <p>The "Nat 20," "Nat 1," and "Modifier" fields are used to adjust the priority of the initiative scores when they are ordered in the table.</p>
+                            <ul>
+                                <li>"Nat 20" - Check this if the die rolled a natural 20. This adds 20 to the initiative score when sorting the initiative table.</li>
+                                <li>"Nat 1" - Check this if the die rolled a natural 1. This subtracts 20 from the initiative score when sorting the initiative table.</li>
+                                <li>"Modifier" - Enter your character's dexterity/initiative modifier here. If two players submit the same initiative score, the player with the greater modifier is given priority when sorting the table.</li>
+                            </ul>
+                    </td>
+                </tr>
             <tr style="vertical-align: top;">
                 <td>
                     <form id="createForm">
@@ -61,7 +76,7 @@
                         <table>
                             <tr style="vertical-align: top;">
                                 <td style="width: 20%;">
-                                    <h2>Initiative: </h2>
+                                    <h2>My Initiative: </h2>
                                 </td>
                                 <td colspan="4">
                                     <input type="number" name="initiative" id="initiativeInput" value="0" style="font-size: 2em;">

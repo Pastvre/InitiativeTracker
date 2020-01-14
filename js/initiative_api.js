@@ -38,7 +38,6 @@ function initSocket() {
         else if (action === "onCreate") {
             sessionCode = params.session;
             showSessionCode(sessionCode);
-            alert("Created session " + sessionCode);
         }
         else {
             alert(`[message] Data received from server: ${event.data}`);

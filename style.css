@@ -8,6 +8,18 @@ body {
     line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
 }
 
+@media (min-aspect-ratio: 7/5) {
+    body {
+        font-size: calc(14px + (26 - 14) * ((75vw - 300px) / (1600 - 300)));
+        line-height: calc(1.3em + (1.5 - 1.2) * ((75vw - 300px)/(1600 - 300)));
+    }
+
+    #panels {
+        width: 75%;
+        margin: auto;
+    }
+}
+
 label {
     display: inline-block;
     line-height: 1.5em;

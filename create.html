@@ -76,8 +76,17 @@
             }
 
             console.log("creating session");
-            createSession();
-            
+            {
+                let code = getCookie('sessionCode');
+                if (code) {
+                    showSessionCode(code);
+                    alert('Loaded the previously created session. To generate a new session, click the "New Session" link in the navbar, then press the "Create Session" button.')
+                    joinSession(code, '');
+                } else {
+                    createSession();
+                }
+            }
+
         </script>
     </body>
 </html>

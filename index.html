@@ -47,6 +47,14 @@
 
 
         <script>
+            function setCookie(cname, cvalue, exhours) {
+                // https://www.w3schools.com/js/js_cookies.asp
+                var d = new Date();
+                d.setTime(d.getTime() + (exhours*60*60*1000));
+                var expires = "expires="+ d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
             var sessionCode;
             var characterName;
             function sessionParams() {
@@ -73,6 +81,7 @@
             document.getElementById("joinForm").onsubmit = join;
             var create = function(event) {
                 event.preventDefault();
+                setCookie('sessionCode','',-1);
                 window.location.assign('create.html');
                 return false;
             };

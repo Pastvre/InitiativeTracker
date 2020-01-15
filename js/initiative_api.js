@@ -9,10 +9,10 @@ let showSessionCode = function(code) {
     document.getElementById("sessionCodeLink").href = link;
 }
 
-function setCookie(cname, cvalue, exdays) {
+function setCookie(cname, cvalue, exhours) {
     // https://www.w3schools.com/js/js_cookies.asp
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setTime(d.getTime() + (exhours*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
@@ -74,14 +74,15 @@ function initSocket() {
                     document.getElementById('modifierInput').value = p.modifier || 0;
                 }
             }
-            setCookie('sessionCode', sessionCode, 1); // lasts 1 day
-            setCookie('characterName', characterName, 8); // lasts 8 days
+            setCookie('sessionCode', sessionCode, 6); // lasts 6 hours
+            setCookie('characterName', characterName, 24*8); // lasts 8 days
             validateConnection();
         } 
         else if (action === "onCreate") {
             sessionCode = params.session;
             //changeState('userUI');
             showSessionCode(sessionCode);
+            setCookie('sessionCode', sessionCode, 6); // lasts 6 hours
         }
         else {
             alert(`[message] Data received from server: ${event.data}`);
@@ -152,7 +153,7 @@ function sendInitiative(valuesMap) {
             values: valuesMap
         }
     });
-    setCookie('modifier', document.getElementById('modifierInput').value, 8); // lasts 8 days
+    setCookie('modifier', document.getElementById('modifierInput').value, 8*24); // lasts 8 days
 }
 
 function createSession() {

@@ -4,7 +4,9 @@ const INITIATIVE_API_ENDPOINT = "wss://bgov1wxo28.execute-api.us-east-1.amazonaw
 var refreshInitiatives;
 let showSessionCode = function(code) {
     document.getElementById("sessionCodeLabel").innerText = code;
-    document.getElementById("sessionCodeLink").href = window.location.href.split('?')[0] + '?code=' + code;
+    let link = '/?code=' + code;
+    console.log('linking to '+link);
+    document.getElementById("sessionCodeLink").href = link;
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -32,8 +34,8 @@ function getCookie(cname) {
     return "";
   }
 
-var characterName = getCookie('characterName');
-var sessionCode = getCookie('sessionCode');
+var characterName;
+var sessionCode;
 
 function initSocket() {
     let socket = new WebSocket(INITIATIVE_API_ENDPOINT);
@@ -50,9 +52,16 @@ function initSocket() {
             p.name = params.name;
             p.session = params.session;
             updateInitiative(p);
+        } else if (action === "reset") {
+            let code = params.session;
+            console.log('got reset for session '+code);
+            if (code == sessionCode) {
+                resetInitiativesTable();
+            }
         } 
         else if (action === "onJoin") {
             sessionCode = params.session;
+            //changeState('userUI');
             showSessionCode(sessionCode);
             let players = params.players;
             console.log('onJoin:'+JSON.stringify(players))
@@ -71,6 +80,7 @@ function initSocket() {
         } 
         else if (action === "onCreate") {
             sessionCode = params.session;
+            //changeState('userUI');
             showSessionCode(sessionCode);
         }
         else {
@@ -80,14 +90,13 @@ function initSocket() {
     socket.onclose = function(event) {
         console.log('close:'+JSON.stringify(event));
         if (event.wasClean) {
+            console.log('[close] Connection died cleanly');
         } else {
-            alert('[close] Connection died');
+            console.log('[close] Connection died');
         }
-        validateConnection();
     };
     socket.onerror = function(error) {
         alert(`[error] ${error.message}`);
-        validateConnection();
     };
     return socket;
 }
@@ -99,13 +108,18 @@ function waitForSocket(callback) {
         callback(socket);
 }
 
-function getSocket(callback) {
-    if (socket.readyState == WebSocket.OPEN)
+var getSocket;
+getSocket = function(callback) {
+    if (socket.readyState == WebSocket.OPEN) {
+        console.log('got socket')
         callback(socket);
-    else if (socket.readyState == WebSocket.CONNECTING) {
-        setTimeout((callback) => getSocket, 400);
+    } else if (socket.readyState == WebSocket.CONNECTING) {
+        console.log('waiting for socket');
+        setTimeout(() => {getSocket(callback);}, 400);
     } else {
+        console.log('initializing socket');
         socket = initSocket();
+        setTimeout(() => {getSocket(callback);}, 400);
     }
 }
 
@@ -142,9 +156,21 @@ function sendInitiative(valuesMap) {
 }
 
 function createSession() {
+    console.log('creating a session');
     sendToApi({
         service: "initiative",
         action: "create",
         data: {}
+    });
+}
+
+function resetSession() {
+    console.log('creating a session');
+    sendToApi({
+        service: "initiative",
+        action: "reset",
+        data: {
+            session: sessionCode
+        }
     });
 }

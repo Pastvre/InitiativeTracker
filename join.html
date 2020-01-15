@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="stylesheet" href="style.css?version=3">
+
+        <title>Who Goes First?</title>
+    </head>
+    <body>
+        <h1>Who Goes First?</h1>
+        <div id="panels">
+            <div id="navPanel" class="panel">
+                <a href="index.html">New Session</a> <a href="about.html">About</a>
+            </div>
+            <div id="sessionCodePanel" class="panel">
+                <span><b>Session Code:</b></span>
+                <a id="sessionCodeLink" class="highlighted"><span id="sessionCodeLabel"> _ _ _ _ _ _</span></a>
+                <div class="minor"><i>Share this with your party</i></div>
+            </div>
+            <div id="initiativePanel" class="panel">
+                <form id="initiativeForm">
+                    <span class="major" id="characterNameLabel">Character</span>
+                    <div>
+                        <label for="modifierInput" class="large">Modifier (Dex):</label>
+                        <div class="field">
+                            <input type="number" name="modifier" id="modifierInput" value="0" class="large">
+                            <label for="modifierInput" class="below minor"><i>(This is used to determine who goes first in a tie)</i></label>
+                        </div>
+                    </div>
+                    <hr>
+                    <label for="initiativeInput" class="shiny">Initiative for this round:</label>
+                    <div class="field">
+                        <input type="number" name="initiative" id="initiativeInput" value="0" class="major shiny">
+                        <label for="initiativeInput" class="below minor"><i>(After applying all modifiers)</i></label>
+                    </div><br>
+                    <div class="field">
+                        <label for="critInput">Nat 20 (Critical): </label>
+                        <input type="checkbox" name="crit" id="critInput" value="false" class="large">
+                    </div><div style="width: 1em;"></div>
+                    <div class="field">
+                        <label for="failInput">Nat 1 (Suprised): </label>
+                        <input type="checkbox" name="fail" id="failInput" value="false" class="large">
+                    </div><br>
+                    <input type="submit" id="initiativeButton" value="Submit Initiative" class="shiny major">
+                </form>
+            </div>
+        </div>
+        <div id="tablePanel" class="panel">
+            <h2>Initiative Order</h2>
+            <table id="initiative-table">
+                <tr style="font-size: 1.2em;">
+                    <th style="width: 3em;">#</th>
+                    <th>Name</th>
+                    <th>Initiative</th>
+                    <th>Critical</th>
+                    <th>Surprised</th>
+                    <th>Modifier</th>
+                </tr>
+                <tr>
+                    <td colspan="6"><i>No initiatives have been submitted yet</i></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <script src="js/initiative_api.js?version=3"></script>
+        <script src="js/initiative_ui.js?version=3"></script>
+        <!--<script src="js/app.js?version=3"></script>-->
+        <script>
+            document.getElementById("initiativeForm").onsubmit = function(event) {
+                event.preventDefault();
+                submitInitiative();
+                return false;
+            }
+            function submitInitiative() {
+                sendInitiative({ 
+                    initiative: document.getElementById("initiativeInput").value,
+                    critical: document.getElementById("critInput").checked,
+                    surprised: document.getElementById("failInput").checked,
+                    modifier: document.getElementById("modifierInput").value
+                });
+            }
+            console.log("joining session");
+            // get parameters from query string
+            let urlParams = new URLSearchParams(window.location.search);
+            console.log(JSON.stringify(urlParams));
+            if (urlParams.has('code') && urlParams.has('name')) {
+                sessionCode = urlParams.get('code');
+                characterName = urlParams.get('name');
+                document.getElementById('modifierInput').value = Number(getCookie('modifier')) || 0;
+                document.getElementById('characterNameLabel').innerText = characterName;
+
+                showSessionCode(sessionCode);
+                joinSession(sessionCode, characterName);
+                document.getElementById('initiativeInput').focus();
+                console.log('automatically joining session ' + sessionCode);
+            } else {
+                window.location.assign('/');
+            }
+        </script>
+    </body>
+</html>

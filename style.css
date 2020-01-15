@@ -1,72 +1,44 @@
 body {
     background: black;
     color: white;
-    padding-bottom: 1em;
 }
 
-body, input, label {
+body {
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
     line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
 }
 
 label {
     display: inline-block;
-    padding-left: 15px;
-    text-indent: -15px;
+    line-height: 1.5em;
 }
 
 input[type=checkbox] {
-    width: 2em;
-    height: 2em;
+    width: 1em;
+    height: 1em;
     padding: 0;
     margin:0;
     vertical-align: middle;
     position: relative;
     top: -1px;
     *overflow: hidden;
+    border: solid white;
+    background: black;
+}
+
+input[type=number] {
+    text-align: center;
 }
 
 table {
     table-layout : fixed;
     width: 100%;
+    font-size: 0.5em;
 } 
 
 th, td {
     width: 25%;
     text-align: center;
-}
-
-#layoutTable {
-    border-spacing: 0.5em;
-    table-layout : auto;
-}
-
-#layoutTable tr td {
-    text-align: start;
-    background: #090909;
-    width: auto;
-    padding: 0.25em;
-}
-
-#layoutTable input {
-    width: 100%;
-    text-align: center;
-}
-
-#layoutTable td table {
-    table-layout: auto;
-}
-
-#layoutTable td table td {
-    table-layout: auto;
-    text-align: center;
-}
-
-.topleft {
-    position: absolute;
-    left: 0.5em;
-    top: 0.5em;
-    max-width: calc(25% - 1em);
 }
 
 span.shiny, p.shiny, h1.shiny, h2.shiny, h3.shiny, h4.shiny {
@@ -85,6 +57,128 @@ input.shiny:disabled {
     border: 1pt solid white;
 }
 
-#initiativeButton, #joinButton {
+form {
+    width: 100%;
+    height: 100%;
+}
+
+.large {
+    font-size: 0.8em;
+}
+
+.major {
     font-size: 1.5em;
+    line-height: normal;
+    font-weight: bold;
+}
+
+.minor {
+    font-size: 0.6em;
+    line-height: normal;
+    font-weight: bold;
+}
+
+form div.field {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 1em;
+    overflow-x: visible;
+}
+
+form div.field label.below {
+    position: absolute;
+    top: 100%;
+    float: left;
+    left: 0;
+}
+
+.heading {
+    display: block;
+}
+
+div.panel {
+    position: relative;
+    background: #202020;
+    font-size: 5ex;
+    margin: 5pt;
+    padding: 10pt;
+}
+
+#instructions.panel {
+    font-size: 1em;
+}
+
+.field, label {
+    max-width: 100%;
+}
+
+input {
+    max-width: 100%;
+}
+
+.uistate {
+    position: absolute;
+    left: 5pt;
+    top: 5pt;
+    right: 5pt;
+    bottom: 5pt;
+    display: none;
+}
+
+.activestate {
+    display: block;
+}
+
+#navPanel {
+    padding: 0;
+    background-color: rgb(77, 20, 0);
+}
+
+#navPanel a {
+    font-size: 1em;
+    line-height: 1em;
+    padding: 3pt;
+    margin: 0;
+    margin-left: 1ex;
+    margin-right: 1ex;
+    padding-left: 1ex;
+    padding-right: 1ex;
+    text-decoration: none;
+}
+
+input[type=submit] {
+    margin: 5pt;
+}
+
+#navPanel a:link {
+    color: white;
+}
+
+#navPanel a:visited {
+    text-decoration: none;
+    color: lightgray;
+}
+
+#navPanel a:hover {
+    text-decoration: underline;
+}
+
+:invalid {
+    background-color: lightsalmon;
+}
+
+#sessionCodeInput {
+    width: 6em;
+}
+
+a.highlighted {
+    background-color: white;
+    color: blue;
+    padding: 5pt;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.highlighted:hover {
+    text-decoration: underline;
 }

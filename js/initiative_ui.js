@@ -82,3 +82,16 @@ updateInitiative = function(data) {
         console.log('received an event for a different session code.');
     }
 }
+
+var resetInitiativesTable = function() {
+    alert("The Dungeon Master has called for new initiative rolls.");
+    console.log('resetting table');
+    initiativeMap = {}; // reset the initiative mappings
+    refreshInitiatives([]);
+}
+
+var validateInputs = function() {
+}
+
+var validateConnection = function() {
+}

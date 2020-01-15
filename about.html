@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="stylesheet" href="style.css?version=3">
+
+        <title>Who Goes First?</title>
+    </head>
+    <body>
+        <h1>Who Goes First?</h1>
+        <div id="panels">
+            <div id="navPanel" class="panel">
+                <a href="index.html">New Session</a> <a href="about.html">About</a>
+            </div>
+            <div id="instructions" class="panel">
+                <span style="color: orangered"><i><b>NOTICE:</b> I completely redesigned the app interface, but have not had time to update these
+                    instructions. The information is still relevant, but may reference elements that have been moved to other pages.</i></span>
+                <p>This is a tool for taking initiative order in Dungeons & Dragons combat.</p>
+                <p>First, the Dungeon Master should create a session using the "Create Session" button. This generates a new session code, which will be displayed below.</p>
+                <p>The players can then enter that session code and the name of their character into the fields under the "Join a Session" section. Press the "Join Session" button to join the session as this character.</p>
+                <p>Players in the session can calculate and enter their initiative score in the form below, then press the "Submit Initiative" button to share their initiative with the rest of the party. The players'
+                    initiative scores are displayed in the table at the bottom of this page, ordered from highest to lowest score.</p>
+                <p>The "Nat 20," "Nat 1," and "Modifier" fields are used to adjust the priority of the initiative scores when they are ordered in the table.</p>
+                <ul>
+                    <li>"Nat 20" - Check this if the die rolled a natural 20. This adds 20 to the initiative score when sorting the initiative table.</li>
+                    <li>"Nat 1" - Check this if the die rolled a natural 1. This subtracts 20 from the initiative score when sorting the initiative table.</li>
+                    <li>"Modifier" - Enter your character's dexterity/initiative modifier here. If two players submit the same initiative score, the player with the greater modifier is given priority when sorting the table.</li>
+                </ul>
+                <p>If you are a Dungeon Master and did not create the session or need to re-join the session, use the "Join a Session" section with the session code and a random character name. This name will not appear in the initiatives
+                    table unless you press the "Submit Initiative" button.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

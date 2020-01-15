@@ -79,9 +79,11 @@
             {
                 let code = getCookie('sessionCode');
                 if (code) {
+                    sessionCode = code;
+                    characterName = '';
                     showSessionCode(code);
                     alert('Loaded the previously created session. To generate a new session, click the "New Session" link in the navbar, then press the "Create Session" button.')
-                    joinSession(code, '');
+                    joinSession(sessionCode, characterName);
                 } else {
                     createSession();
                 }

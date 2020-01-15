@@ -94,7 +94,7 @@ function initSocket() {
             console.log('[close] Connection died cleanly');
         } else {
             console.log('[close] Connection died');
-            setTimeout(() => { socket = initSocket(); }, 400);
+            setTimeout(() => { socket = joinSession(sessionCode, characterName); }, 400);
         }
     };
     socket.onerror = function(error) {

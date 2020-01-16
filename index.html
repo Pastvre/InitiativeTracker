@@ -46,7 +46,7 @@
             <div id="joinPanel" class="panel">
                 <form id="joinForm">
                     <span class="major shiny heading">Join a Session</span>
-                    <label for="sessionCodeInput">Session Code: <input type="text" name="sessionCode" id="sessionCodeInput" value="" class="major" pattern="......" placeholder="abc123"> </label>
+                    <label for="sessionCodeInput">Session Code: <input type="text" name="sessionCode" id="sessionCodeInput" value="" class="major" pattern="[a-z0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9][a-z0-9]" placeholder="abc123"> </label>
                     <label for="characterNameInput">Character Name: <input type="text" name="characterName" id="characterNameInput" value="" class="major" pattern="[A-z0-9\- '#,]+" placeholder=""></label>
                     <input type="submit" id="joinButton" value="Join Session" class="shiny major" >
                 </form>

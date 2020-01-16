@@ -176,8 +176,12 @@ input[type=submit] {
     text-decoration: underline;
 }
 
-:invalid {
-    background-color: lightsalmon;
+input:invalid {
+    background-color: lightyellow;
+}
+
+form :invalid {
+    border-color: orangered;
 }
 
 #sessionCodeInput {
@@ -206,7 +210,7 @@ input[type=submit] {
     border-radius: 0.1em;
 }
 
-input:not(.shiny):hover {
+input:not(.shiny):not(:invalid):hover {
     background-color: lightsteelblue;
 }
 

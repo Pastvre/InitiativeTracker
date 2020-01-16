@@ -197,3 +197,23 @@ a.highlighted {
 a.highlighted:hover {
     text-decoration: underline;
 }
+
+input {
+    transition: all 0.5s ease;
+}
+
+input[type=submit] {
+    border-radius: 0.1em;
+}
+
+input:not(.shiny):hover {
+    background-color: lightsteelblue;
+}
+
+input.shiny:hover {
+    background: orange;
+}
+
+input.shiny:active {
+    background: darkorange;
+}

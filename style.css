@@ -1,6 +1,7 @@
 body {
     background: black;
     color: white;
+    font-family: "Gotham A","Gotham B",sans-serif;
 }
 
 body {
@@ -184,11 +185,13 @@ input[type=submit] {
 }
 
 a.highlighted {
+    position: relative;
     background-color: white;
     color: blue;
     padding: 5pt;
     font-weight: bold;
     text-decoration: none;
+    line-height: 1em;
 }
 
 a.highlighted:hover {

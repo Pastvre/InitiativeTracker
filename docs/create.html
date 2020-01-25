@@ -19,7 +19,7 @@
         <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="stylesheet" href="/css/style.css?version=3">
+        <link rel="stylesheet" href="/css/style.css?version=4">
 
         <meta property="og:title" content="Who Goes First?" />
         <meta property="og:type" content="website" />
@@ -48,6 +48,43 @@
                     <span style="display: inline-block;" class="minor"><i>This will reset the initiatives table</i></span>
                 </form>
             </div>
+            <div id="initiativePanel" class="panel">
+                <input type="number" name="modifier" id="modifierInput" value="0" style="display: none;">
+                <div id="monsterInitiatives">
+                    <span><b>NPCs</b></span>
+                    <template id="monster">
+                        <div class="monsterInitiative">
+                            <form id="initiativeForm" style="display: inline-block;">
+                                <input type="text" class="major" name="character" id="characterNameInput" value="Monster" style="width:auto;min-width: 30%; max-width: 40%;">
+                                <div class="field" style="width: 10%;">
+                                    <input type="number" name="initiative" id="initiativeInput" value="0" class="major shiny">
+                                </div>
+                                <div style="width: 30%; height: 50%; vertical-align: middle; display: inline-block; padding: 0;">
+                                    <div style="line-height: 50%; width: auto; display: block;">
+                                        <input type="checkbox" name="crit" id="critInput" value="false" class="minor">
+                                        <label for="critInput" class="minor">Crit</label>
+                                    </div>
+                                    <div style="line-height: 50%; height: 50%; width: auto; display: block;">
+                                        <input type="checkbox" name="fail" id="failInput" value="false" class="minor">
+                                        <label for="failInput" class="minor">Fail</label>
+                                    </div>
+                                </div>
+                                <input type="submit" id="initiativeButton" value="&rarr;" class="shiny major" style="width: auto; display: inline-block; position: absolute; right: 0;">
+                            </form>
+                        </div>
+                    </template>
+                    <form id="addMonsterForm" class="inline" style="float: right;">
+                        <input type="submit" id="addMonsterButton" value="&plus;" class="large">
+                    </form>
+                    <div class="inline" style="float: right; width: 0.5em; height: 1.3em;">
+                    </div>
+                    <form id="removeMonsterForm" class="inline" style="float: right; ">
+                        <input type="submit" id="removeMonsterButton" value="&minus;" class="large">
+                    </form>
+                </div>
+                <div>
+                </div>
+            </div>
             <div id="tablePanel" class="panel">
                 <h2>Initiative Order</h2>
                 <table id="initiative-table">
@@ -71,9 +108,67 @@
             </div>
         </div>
 
-        <script src="js/initiative_api.js?version=3"></script>
-        <script src="js/initiative_ui.js?version=3"></script>
-        <!--<script src="js/app.js?version=3"></script>-->
+        <script src="js/initiative_api.js?version=4"></script>
+        <script src="js/initiative_ui.js?version=4"></script>
+        <!--<script src="js/app.js?version=4"></script>-->
+        <script>
+            let monsters = [];
+            const monsterInitiatives = document.querySelector("#monsterInitiatives");
+            function addMonster() {
+                // Instantiate the table with the existing HTML tbody
+                // and the row with the template
+                var template = document.querySelector('#monster');
+
+                var pbody = document.querySelector("#monsterInitiatives");
+                // Clone the new row and insert it into the table
+                var clone = template.content.cloneNode(true);
+                // var td = clone.querySelectorAll("td");
+                // td[0].textContent = "1235646565";
+                // td[1].textContent = "Stuff";
+
+                let elem = clone;
+                let form = elem.querySelector("#initiativeForm");
+                let initiativeInput = elem.querySelector('input[name="initiative"]');
+                let critInput = elem.querySelector('input[name="crit"]');
+                let failInput = elem.querySelector('input[name="fail"]');
+                let nameInput = elem.querySelector('input[name="character"]');
+                console.log(initiativeInput);
+                form.onsubmit = function(event) {
+                    event.preventDefault();
+                    let initiative = parseInt(initiativeInput.value);
+                    let mod = 0;
+                    let crit = critInput.checked;
+                    let fail = failInput.checked;
+                    let name = nameInput.value;
+                    sendInitiative({ 
+                        initiative: initiative,
+                        critical: crit,
+                        surprised: fail,
+                        modifier: mod
+                    }, name);
+                    return false;
+                }
+                let id = 'monster' + Math.floor(Math.random() * 1000);
+                pbody.insertBefore(clone, document.querySelector('#removeMonsterForm'));
+                monsters.push(id);
+            }
+            function removeMonster() {
+                let id = monsters.pop();
+                console.log(id);
+                let elems = document.querySelectorAll(".monsterInitiative");
+                document.querySelector("#monsterInitiatives").removeChild(elems[elems.length - 1]);
+            }
+            document.getElementById("addMonsterForm").onsubmit = function(event) {
+                event.preventDefault();
+                addMonster();
+                return false;
+            }
+            document.getElementById("removeMonsterForm").onsubmit = function(event) {
+                event.preventDefault();
+                removeMonster();
+                return false;
+            }
+        </script>
         <script>
 
             document.getElementById("resetForm").onsubmit = function(event) {

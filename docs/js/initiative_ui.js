@@ -19,7 +19,7 @@ refreshInitiatives = function(data) {
         row.cells[0].innerHTML = index;
         row.cells[0].colSpan = "1";
         row.cells[1].innerHTML = encodeURIComponent(v.name).replace('%20', ' ').replace('%20', ' ');
-        row.cells[2].innerHTML = Number(v.initiative) || '...';
+        row.cells[2].innerHTML = v.initiative == '0' ? 0 : (Number(v.initiative) || '...');
         row.cells[3].innerHTML = (v.critical && true) || false;
         row.cells[4].innerHTML = (v.surprised && true) || false;
         row.cells[5].innerHTML = Number(v.modifier) || 0;

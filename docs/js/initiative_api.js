@@ -44,48 +44,53 @@ function initSocket() {
     };
     socket.onmessage = function(event) {
         let data = JSON.parse(event.data);
-        let action = data.action;
-        let params = data.data;
-        console.log('message:'+JSON.stringify(data));
-        if (action === "put") {
-            let p  = params.values;
-            p.name = params.name;
-            p.session = params.session;
-            updateInitiative(p);
-        } else if (action === "reset") {
-            let code = params.session;
-            console.log('got reset for session '+code);
-            if (code == sessionCode) {
-                resetInitiativesTable();
-            }
-        } 
-        else if (action === "onJoin") {
-            sessionCode = params.session;
-            //changeState('userUI');
-            showSessionCode(sessionCode);
-            let players = params.players;
-            console.log('onJoin:'+JSON.stringify(players))
-            for (var i in players) {
-                let p = players[i];
-                console.log('onJoin['+i+']:'+JSON.stringify(p))
-                // p.name = k;
+        if (Object.keys(data).every((e) => ["message", "connectionId", "requestId"].includes(e))) {
+            alert(`${data.message}`);
+        } else {
+            console.log(Object.keys(data));
+            let action = data.action;
+            let params = data.data;
+            console.log('message:'+JSON.stringify(data));
+            if (action === "put") {
+                let p  = params.values;
+                p.name = params.name;
+                p.session = params.session;
                 updateInitiative(p);
-                if (p.name == characterName) {
-                    document.getElementById('modifierInput').value = p.modifier || 0;
+            } else if (action === "reset") {
+                let code = params.session;
+                console.log('got reset for session '+code);
+                if (code == sessionCode) {
+                    resetInitiativesTable();
                 }
+            } 
+            else if (action === "onJoin") {
+                sessionCode = params.session;
+                //changeState('userUI');
+                showSessionCode(sessionCode);
+                let players = params.players;
+                console.log('onJoin:'+JSON.stringify(players))
+                for (var i in players) {
+                    let p = players[i];
+                    console.log('onJoin['+i+']:'+JSON.stringify(p))
+                    // p.name = k;
+                    updateInitiative(p);
+                    if (p.name == characterName) {
+                        document.getElementById('modifierInput').value = p.modifier || 0;
+                    }
+                }
+                setCookie('sessionCode', sessionCode, 6); // lasts 6 hours
+                setCookie('characterName', characterName, 24*8); // lasts 8 days
+                validateConnection();
+            } 
+            else if (action === "onCreate") {
+                sessionCode = params.session;
+                //changeState('userUI');
+                showSessionCode(sessionCode);
+                setCookie('sessionCode', sessionCode, 6); // lasts 6 hours
             }
-            setCookie('sessionCode', sessionCode, 6); // lasts 6 hours
-            setCookie('characterName', characterName, 24*8); // lasts 8 days
-            validateConnection();
-        } 
-        else if (action === "onCreate") {
-            sessionCode = params.session;
-            //changeState('userUI');
-            showSessionCode(sessionCode);
-            setCookie('sessionCode', sessionCode, 6); // lasts 6 hours
-        }
-        else {
-            alert(`[message] Data received from server: ${event.data}`);
+            else {
+                console.log(`(onmessage) -> ${event.data}`);
+            }
         }
     };
     socket.onclose = function(event) {
@@ -98,7 +103,7 @@ function initSocket() {
         }
     };
     socket.onerror = function(error) {
-        alert(`[error] ${error.message}`);
+        alert(`[error] ${error}`);
     };
     return socket;
 }
@@ -126,7 +131,9 @@ getSocket = function(callback) {
 }
 
 function sendToApi(json) {
-    getSocket((s) => {s.send(JSON.stringify(json));});
+    let message = JSON.stringify(json);
+    console.log(message);
+    getSocket((s) => {s.send(message);});
 }
 
 function joinSession(session, name) {
@@ -144,13 +151,15 @@ function joinSession(session, name) {
     });
 }
 
-function sendInitiative(valuesMap) {
+function sendInitiative(valuesMap, character=undefined) {
+    if (!character)
+        character = characterName;
     sendToApi({
         service: "initiative",
         action: "put",
         data: {
             session: sessionCode,
-            name: characterName,
+            name: character,
             values: valuesMap
         }
     });
